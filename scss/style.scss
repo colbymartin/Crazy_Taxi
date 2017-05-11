@@ -1,12 +1,19 @@
-table {
-    margin-top: 40px;
-    td {
-        border: 1px solid black;
-        height: 30px;
-        width: 30px;
-    }
-}
+
+@import '../node_modules/foundation-sites/scss/foundation';
+
+@include foundation-global-styles;
+@include foundation-grid; 
+
+@import 'layout';
+@import 'table';
+@import 'chooseVehicle';
+@import 'status';
+
 
 .highlight {
     background-color: yellow;
+}
+
+.destination {
+    background-color: green;
 }

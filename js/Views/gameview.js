@@ -29,6 +29,10 @@ module.exports = View.extend({
             document.querySelector('.highlight').classList.remove('highlight');
             this.model.moveUp();
             document.querySelector('#table').rows[-1 * this.model.y].cells[this.model.x].classList.add('highlight');
+            if (this.model.y === (this.model.passY * -1) && this.model.x === this.model.passX) {
+                console.log('delivered');
+                this.model.changeDeliv();
+            }
         }
     },
     rightClick: function () {
@@ -36,6 +40,10 @@ module.exports = View.extend({
             document.querySelector('.highlight').classList.remove('highlight');
             this.model.moveRight();
             document.querySelector('#table').rows[-1 * this.model.y].cells[this.model.x].classList.add('highlight');
+            if (this.model.y === (this.model.passY * -1) && this.model.x === this.model.passX) {
+                console.log('delivered');
+                this.model.changeDeliv();
+            }
         }
     },
     downClick: function () {
@@ -43,6 +51,10 @@ module.exports = View.extend({
             document.querySelector('.highlight').classList.remove('highlight');
             this.model.moveDown();
             document.querySelector('#table').rows[-1 * this.model.y].cells[this.model.x].classList.add('highlight');
+            if (this.model.y === (this.model.passY * -1) && this.model.x === this.model.passX) {
+                console.log('delivered');
+                this.model.changeDeliv();
+            }
         }
     },
     leftClick: function () {
@@ -50,6 +62,10 @@ module.exports = View.extend({
             document.querySelector('.highlight').classList.remove('highlight');
             this.model.moveLeft();
             document.querySelector('#table').rows[-1 * this.model.y].cells[this.model.x].classList.add('highlight');
+            if (this.model.y === (this.model.passY * -1) && this.model.x === this.model.passX) {
+                console.log('delivered');
+                this.model.changeDeliv();
+            }
         }
     },
     render: function () {

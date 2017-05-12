@@ -15,12 +15,22 @@ module.exports = State.extend({
         this.passY = Math.floor(Math.random() * 19);
         this.passX = Math.floor(Math.random() * 19);
     },
-    checkLocation: function () {
-        if (this.x === this.passX && this.y === this.passY) {
-            console.log('delivered');
+    luxMult: function () {
+        this.costMult = 2;
+    },
+    changeDeliv: function () {
+        if (this.delivered === false) {
+            this.delivered = true;
+        } else {
             this.delivered = true;
         }
     },
+    // checkLocation: function () {
+    //     if (this.x === this.passX && this.y === this.passY) {
+    //         console.log('delivered');
+    //         this.delivered = true;
+    //     }
+    // },
     moveUp: function () {
         this.y++;
         this.fuel--;

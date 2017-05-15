@@ -8,56 +8,76 @@ module.exports = State.extend({
         y: 'number',
         passX: 'number',
         passY: 'number',
+        destX: 'number', 
+        destY: 'number',
         costMult: 'number',
         gasMult: 'number',
         total: 'number',
-        delivered: 'boolean',
-        // waiting: 'boolean',
     },
     randomPassenger: function () {
         this.passY = Math.floor(Math.random() * 19);
         this.passX = Math.floor(Math.random() * 19);
     },
+    randomDestination: function () {
+        this.destY = Math.floor(Math.random() * 19);
+        this.destX = Math.floor(Math.random() * 19);
+    },
     luxMult: function () {
         this.costMult = 2;
         this.gasMult = 2;
     },
-    changeDeliv: function () {
-        if (this.delivered === false) {
-            this.delivered = true;
-        } else {
-            this.delivered = true;
-        }
-    },
     moveUp: function () {
         this.y++;
         this.fuel = this.fuel - (1 * this.gasMult);
-        this.total = this.total + (10 * this.costMult);
     },
     moveRight: function () {
         this.x++;
         this.fuel = this.fuel - (1 * this.gasMult);
-        this.total = this.total + (10 * this.costMult);
     },
     moveDown: function () {
         this.y--;
         this.fuel = this.fuel - (1 * this.gasMult);
-        this.total = this.total + (10 * this.costMult);
     },
     moveLeft: function () {
         this.x--;
         this.fuel = this.fuel - (1 * this.gasMult);
+    },
+    calculateFare: function () {
         this.total = this.total + (10 * this.costMult);
-    }
+    },
 });
 },{"ampersand-state":20}],2:[function(require,module,exports){
 let Collection = require('ampersand-collection');
 let PassengerModel = require('./passmodel');
 
+let nameArray = ['Frank', 'Dennis', 'Charlie', 'Dee', 'Mac', 'Artemis', 'Pete', 'Smitty', 'Nikki', 'Matthew', 'Liam', 'Ryan', 'Margaret'];
+let occupationArray = ['Banker', 'Bartender', 'Janitor', 'Actor', 'Personal Trainer', 'Barista', 'Unemployed'];
+
+function randomName() {
+    return nameArray[Math.floor(Math.random() * 13)];
+};
+
+function randomJob() {
+    return occupationArray[Math.floor(Math.random() * 7)];
+};
+
 module.exports = Collection.extend({
     model: PassengerModel,
 
-    
+    addRandom: function () {
+        this.add(new PassengerModel({
+            name: randomName(),
+            occupation: randomJob(),
+            status: 'Waiting',
+        }));
+    },
+
+    updateLatest: function (status) {
+        // update the last person in the array
+        // this.at() gets the persona at specified index
+        this.at(this.length - 1).status = status;
+    }
+
 });
 },{"./passmodel":3,"ampersand-collection":13}],3:[function(require,module,exports){
 let State = require('ampersand-state');
@@ -72,7 +92,6 @@ module.exports = State.extend({
 },{"ampersand-state":20}],4:[function(require,module,exports){
 let View = require('ampersand-view');
 
-
 module.exports = View.extend({
     template: document.querySelector('#game-template').innerHTML,
     bindings: {
@@ -82,12 +101,6 @@ module.exports = View.extend({
     },
     initialize: function () {
         this.initLocation();
-
-        // Any DOM updates that occur after model changes.
-        this.model.on('change:delivered', function () {
-            document.querySelector('.destination').classList.remove('destination');
-            
-        });
     },
     events: {
         'click #upBtn' : 'upClick',
@@ -103,10 +116,6 @@ module.exports = View.extend({
             document.querySelector('.highlight').classList.remove('highlight');
             this.model.moveUp();
             document.querySelector('#table').rows[-1 * this.model.y].cells[this.model.x].classList.add('highlight');
-            if (this.model.y === (this.model.passY * -1) && this.model.x === this.model.passX) {
-                console.log('picked up');
-                this.model.changeDeliv();
-            }
         }
     },
     rightClick: function () {
@@ -114,22 +123,13 @@ module.exports = View.extend({
             document.querySelector('.highlight').classList.remove('highlight');
             this.model.moveRight();
             document.querySelector('#table').rows[-1 * this.model.y].cells[this.model.x].classList.add('highlight');
-            if (this.model.y === (this.model.passY * -1) && this.model.x === this.model.passX) {
-                console.log('delivered');
-                // this.model.pickUp();
-                this.model.changeDeliv();
-            }
         }
     },
     downClick: function () {
-        if (this.model.y !== 19) {
+        if (this.model.y !== -19) {
             document.querySelector('.highlight').classList.remove('highlight');
             this.model.moveDown();
             document.querySelector('#table').rows[-1 * this.model.y].cells[this.model.x].classList.add('highlight');
-            if (this.model.y === (this.model.passY * -1) && this.model.x === this.model.passX) {
-                console.log('delivered');
-                this.model.changeDeliv();
-            }
         }
     },
     leftClick: function () {
@@ -137,10 +137,6 @@ module.exports = View.extend({
             document.querySelector('.highlight').classList.remove('highlight');
             this.model.moveLeft();
             document.querySelector('#table').rows[-1 * this.model.y].cells[this.model.x].classList.add('highlight');
-            if (this.model.y === (this.model.passY * -1) && this.model.x === this.model.passX) {
-                console.log('delivered');
-                this.model.changeDeliv();
-            }
         }
     },
     render: function () {
@@ -197,11 +193,11 @@ module.exports = View.extend({
     },
     chooseHybrid: function () {
         this.model.randomPassenger();
-        document.querySelector('#table').rows[this.model.passY].cells[this.model.passX].classList.add('destination');
+        document.querySelector('#table').rows[this.model.passY].cells[this.model.passX].classList.add('passenger');
     },
     chooseLux: function () {
         this.model.randomPassenger();
-        document.querySelector('#table').rows[this.model.passY].cells[this.model.passX].classList.add('destination');
+        document.querySelector('#table').rows[this.model.passY].cells[this.model.passX].classList.add('passenger');
         this.model.luxMult();
     }, 
     render: function () {
@@ -227,22 +223,12 @@ window.addEventListener('load', function () {
     crazyTaxi.total = 0;
     crazyTaxi.costMult = 1;
     crazyTaxi.gasMult = 1;
-    crazyTaxi.delivered = false;
     crazyTaxi.passY = null;
     crazyTaxi.passX = null;
+    crazyTaxi.destX = null;
+    crazyTaxi.destY = null;
 
-
-    let pass1 = new PassModel();
-    pass1.name = 'Nancy';
-    pass1.occupation = 'Doctor';
-    pass1.status = "Awaiting Ride";
-
-    let pass2 = new PassModel();
-    pass2.name = 'Bob';
-    pass2.occupation = 'Bird Law';
-    pass2.status = "Awaiting Ride";
-
-    let list = new PassCollection([pass1, pass2]);
+    let list = new PassCollection();
 
     let gv = new GameView({
         el: document.querySelector('.status'),
@@ -270,6 +256,28 @@ window.addEventListener('load', function () {
     vv.render();
     tv.render();
 
+    crazyTaxi.on('change:fuel', function () {
+        if (crazyTaxi.fuel === 0) {
+            console.log('GAME OVER');
+            router.navigate('endGame');
+
+        }
+        if (crazyTaxi.x === crazyTaxi.passX && (crazyTaxi.passY * -1) === crazyTaxi.y) {
+            document.querySelector('.passenger').classList.remove('passenger');
+            list.updateLatest('Ride in Progress');
+            crazyTaxi.randomDestination();
+            document.querySelector('#table').rows[crazyTaxi.destY].cells[crazyTaxi.destX].classList.add('destination');
+        }
+        if (crazyTaxi.x === crazyTaxi.destX && (crazyTaxi.destY * -1) === crazyTaxi.y) {
+            document.querySelector('.destination').classList.remove('destination');
+            list.updateLatest('Ride Completed');
+            list.addRandom();
+            crazyTaxi.randomPassenger();
+            crazyTaxi.calculateFare();
+            document.querySelector('#table').rows[crazyTaxi.passY].cells[crazyTaxi.passX].classList.add('passenger');
+        }
+    })
+
     let AppRouter = require('./router');
 
     let router = new AppRouter();
@@ -283,10 +291,14 @@ window.addEventListener('load', function () {
 
     gv.router = router;
     vv.router = router;
+    tv.router = router;
 
     router.history.start({
         pushState: false,
     })
+
+    list.addRandom();
+
 });
 
 
@@ -296,14 +308,20 @@ let Router = require('ampersand-router');
 module.exports = Router.extend({
     routes: {
         'viewGame' : 'showGame',
+        'endGame' : 'endGame',
     },
     showGame: function () {
-        console.log('showing game');
         this.views.vehicles.el.classList.add('hide');
         this.views.game.el.classList.remove('hide');
         this.views.passengers.el.classList.remove('hide');
         document.querySelector('#table').classList.remove('hide');
     },
+    endGame: function () {
+        this.views.game.el.classList.add('hide');
+        this.views.total.el.classList.remove('hide');
+        this.views.passengers.el.classList.add('hide');
+        document.querySelector('#table').classList.add('hide');
+    }
 });
 },{"ampersand-router":19}],11:[function(require,module,exports){
 var assign = require('lodash/assign');

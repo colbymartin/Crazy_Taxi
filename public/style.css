@@ -1322,5 +1322,8 @@ table td {
 .highlight {
   background-color: yellow; }
 
+.passenger {
+  background-color: red; }
+
 .destination {
   background-color: green; }

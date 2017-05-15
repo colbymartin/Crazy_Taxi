@@ -16,22 +16,12 @@ window.addEventListener('load', function () {
     crazyTaxi.total = 0;
     crazyTaxi.costMult = 1;
     crazyTaxi.gasMult = 1;
-    crazyTaxi.delivered = false;
     crazyTaxi.passY = null;
     crazyTaxi.passX = null;
+    crazyTaxi.destX = null;
+    crazyTaxi.destY = null;
 
-
-    let pass1 = new PassModel();
-    pass1.name = 'Nancy';
-    pass1.occupation = 'Doctor';
-    pass1.status = "Awaiting Ride";
-
-    let pass2 = new PassModel();
-    pass2.name = 'Bob';
-    pass2.occupation = 'Bird Law';
-    pass2.status = "Awaiting Ride";
-
-    let list = new PassCollection([pass1, pass2]);
+    let list = new PassCollection();
 
     let gv = new GameView({
         el: document.querySelector('.status'),
@@ -59,6 +49,28 @@ window.addEventListener('load', function () {
     vv.render();
     tv.render();
 
+    crazyTaxi.on('change:fuel', function () {
+        if (crazyTaxi.fuel === 0) {
+            console.log('GAME OVER');
+            router.navigate('endGame');
+
+        }
+        if (crazyTaxi.x === crazyTaxi.passX && (crazyTaxi.passY * -1) === crazyTaxi.y) {
+            document.querySelector('.passenger').classList.remove('passenger');
+            list.updateLatest('Ride in Progress');
+            crazyTaxi.randomDestination();
+            document.querySelector('#table').rows[crazyTaxi.destY].cells[crazyTaxi.destX].classList.add('destination');
+        }
+        if (crazyTaxi.x === crazyTaxi.destX && (crazyTaxi.destY * -1) === crazyTaxi.y) {
+            document.querySelector('.destination').classList.remove('destination');
+            list.updateLatest('Ride Completed');
+            list.addRandom();
+            crazyTaxi.randomPassenger();
+            crazyTaxi.calculateFare();
+            document.querySelector('#table').rows[crazyTaxi.passY].cells[crazyTaxi.passX].classList.add('passenger');
+        }
+    })
+
     let AppRouter = require('./router');
 
     let router = new AppRouter();
@@ -72,9 +84,13 @@ window.addEventListener('load', function () {
 
     gv.router = router;
     vv.router = router;
+    tv.router = router;
 
     router.history.start({
         pushState: false,
     })
+
+    list.addRandom();
+
 });
 

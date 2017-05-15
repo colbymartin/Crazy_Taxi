@@ -1,6 +1,5 @@
 let View = require('ampersand-view');
 
-
 module.exports = View.extend({
     template: document.querySelector('#game-template').innerHTML,
     bindings: {
@@ -10,12 +9,6 @@ module.exports = View.extend({
     },
     initialize: function () {
         this.initLocation();
-
-        // Any DOM updates that occur after model changes.
-        this.model.on('change:delivered', function () {
-            document.querySelector('.destination').classList.remove('destination');
-            
-        });
     },
     events: {
         'click #upBtn' : 'upClick',
@@ -31,10 +24,6 @@ module.exports = View.extend({
             document.querySelector('.highlight').classList.remove('highlight');
             this.model.moveUp();
             document.querySelector('#table').rows[-1 * this.model.y].cells[this.model.x].classList.add('highlight');
-            if (this.model.y === (this.model.passY * -1) && this.model.x === this.model.passX) {
-                console.log('picked up');
-                this.model.changeDeliv();
-            }
         }
     },
     rightClick: function () {
@@ -42,22 +31,13 @@ module.exports = View.extend({
             document.querySelector('.highlight').classList.remove('highlight');
             this.model.moveRight();
             document.querySelector('#table').rows[-1 * this.model.y].cells[this.model.x].classList.add('highlight');
-            if (this.model.y === (this.model.passY * -1) && this.model.x === this.model.passX) {
-                console.log('delivered');
-                // this.model.pickUp();
-                this.model.changeDeliv();
-            }
         }
     },
     downClick: function () {
-        if (this.model.y !== 19) {
+        if (this.model.y !== -19) {
             document.querySelector('.highlight').classList.remove('highlight');
             this.model.moveDown();
             document.querySelector('#table').rows[-1 * this.model.y].cells[this.model.x].classList.add('highlight');
-            if (this.model.y === (this.model.passY * -1) && this.model.x === this.model.passX) {
-                console.log('delivered');
-                this.model.changeDeliv();
-            }
         }
     },
     leftClick: function () {
@@ -65,10 +45,6 @@ module.exports = View.extend({
             document.querySelector('.highlight').classList.remove('highlight');
             this.model.moveLeft();
             document.querySelector('#table').rows[-1 * this.model.y].cells[this.model.x].classList.add('highlight');
-            if (this.model.y === (this.model.passY * -1) && this.model.x === this.model.passX) {
-                console.log('delivered');
-                this.model.changeDeliv();
-            }
         }
     },
     render: function () {

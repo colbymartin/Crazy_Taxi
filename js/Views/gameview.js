@@ -1,5 +1,6 @@
 let View = require('ampersand-view');
 
+
 module.exports = View.extend({
     template: document.querySelector('#game-template').innerHTML,
     bindings: {
@@ -13,6 +14,7 @@ module.exports = View.extend({
         // Any DOM updates that occur after model changes.
         this.model.on('change:delivered', function () {
             document.querySelector('.destination').classList.remove('destination');
+            
         });
     },
     events: {
@@ -30,7 +32,7 @@ module.exports = View.extend({
             this.model.moveUp();
             document.querySelector('#table').rows[-1 * this.model.y].cells[this.model.x].classList.add('highlight');
             if (this.model.y === (this.model.passY * -1) && this.model.x === this.model.passX) {
-                console.log('delivered');
+                console.log('picked up');
                 this.model.changeDeliv();
             }
         }
@@ -42,6 +44,7 @@ module.exports = View.extend({
             document.querySelector('#table').rows[-1 * this.model.y].cells[this.model.x].classList.add('highlight');
             if (this.model.y === (this.model.passY * -1) && this.model.x === this.model.passX) {
                 console.log('delivered');
+                // this.model.pickUp();
                 this.model.changeDeliv();
             }
         }

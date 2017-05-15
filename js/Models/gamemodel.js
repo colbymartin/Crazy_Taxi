@@ -8,8 +8,10 @@ module.exports = State.extend({
         passX: 'number',
         passY: 'number',
         costMult: 'number',
+        gasMult: 'number',
         total: 'number',
         delivered: 'boolean',
+        // waiting: 'boolean',
     },
     randomPassenger: function () {
         this.passY = Math.floor(Math.random() * 19);
@@ -17,6 +19,7 @@ module.exports = State.extend({
     },
     luxMult: function () {
         this.costMult = 2;
+        this.gasMult = 2;
     },
     changeDeliv: function () {
         if (this.delivered === false) {
@@ -25,30 +28,24 @@ module.exports = State.extend({
             this.delivered = true;
         }
     },
-    // checkLocation: function () {
-    //     if (this.x === this.passX && this.y === this.passY) {
-    //         console.log('delivered');
-    //         this.delivered = true;
-    //     }
-    // },
     moveUp: function () {
         this.y++;
-        this.fuel--;
+        this.fuel = this.fuel - (1 * this.gasMult);
         this.total = this.total + (10 * this.costMult);
     },
     moveRight: function () {
         this.x++;
-        this.fuel--;
+        this.fuel = this.fuel - (1 * this.gasMult);
         this.total = this.total + (10 * this.costMult);
     },
     moveDown: function () {
         this.y--;
-        this.fuel--;
+        this.fuel = this.fuel - (1 * this.gasMult);
         this.total = this.total + (10 * this.costMult);
     },
     moveLeft: function () {
         this.x--;
-        this.fuel--;
+        this.fuel = this.fuel - (1 * this.gasMult);
         this.total = this.total + (10 * this.costMult);
     }
 });

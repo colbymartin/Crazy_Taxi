@@ -18,6 +18,7 @@ module.exports = View.extend({
     },
     initLocation: function () {
         document.querySelector('#table').rows[this.model.y].cells[this.model.x].classList.add('highlight');
+        document.querySelector('#table').rows[this.model.stationY].cells[this.model.stationX].classList.add('gas');
     },
     upClick: function () {
         if (this.model.y !== 0){ 

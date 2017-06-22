@@ -11,6 +11,8 @@ module.exports = State.extend({
         destY: 'number',
         costMult: 'number',
         gasMult: 'number',
+        stationX: 'number',
+        stationY: 'number',
         total: 'number',
     },
     randomPassenger: function () {
@@ -20,6 +22,9 @@ module.exports = State.extend({
     randomDestination: function () {
         this.destY = Math.floor(Math.random() * 19);
         this.destX = Math.floor(Math.random() * 19);
+    },
+    fillUp: function () {
+        this.fuel = 50;
     },
     luxMult: function () {
         this.costMult = 2;

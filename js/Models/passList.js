@@ -2,7 +2,7 @@ let Collection = require('ampersand-collection');
 let PassengerModel = require('./passmodel');
 
 let nameArray = ['Frank', 'Dennis', 'Charlie', 'Dee', 'Mac', 'Artemis', 'Pete', 'Smitty', 'Nikki', 'Matthew', 'Liam', 'Ryan', 'Margaret'];
-let occupationArray = ['Banker', 'Bartender', 'Janitor', 'Actor', 'Personal Trainer', 'Barista', 'Unemployed'];
+let occupationArray = ['Banker', 'Bartender', 'Janitor', 'Actor', 'Trainer', 'Barista', 'Unemployed'];
 
 function randomName() {
     return nameArray[Math.floor(Math.random() * 13)];

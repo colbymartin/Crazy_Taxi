@@ -1,0 +1,13 @@
+.chooseVehicle {
+    font-family: $primary-font;
+    h4 {
+        margin: 0;
+    }
+    @include grid-row();
+    .hybrid {
+        @include grid-column(6);
+    }
+    .hummer {
+        @include grid-column(6);
+    }
+};

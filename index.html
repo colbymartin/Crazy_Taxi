@@ -6,35 +6,49 @@
     <script src="app.js"></script>
     <link rel='stylesheet' href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://use.fontawesome.com/4b38063e68.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Frijole|Lato:400,700" rel="stylesheet">
     <script type="x-ampersand-template" id="game-template">
         <div class="hide">
             <h3>Fuel: <span class="fuel"></span></h3>
             <h3>Location: <span class="Xlocation"></span>, <span class="Ylocation"></span></h3>
-            <a id="upBtn">Up</a>
-            <button id="rightBtn">Right</button>
-            <button id="downBtn">Down</button>
-            <button id="leftBtn">Left</button>
+            <div class="directions">
+                <div class="top">
+                    <button id="upBtn"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+                </div>
+                <div class="middle">
+                    <button id="leftBtn"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                    <button id="rightBtn"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                </div>
+                <div>
+                    <button id="downBtn"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+                </div>
+            </div>
         </div>
     </script>
     <script type="x-ampersand-template" id="total-template">
         <div class="hide">
             <h1>GAME OVER</h1>
             <h2>Total: $<span class="total"></span></h2>
-            <a href="/Users/colbymartin/Desktop/tiy/Crazy_Taxi/public/index.html">Start Over</a>
+            <a>Start Over</a>
         </div>
     </script>
     <script type="x-ampersand-template" id="vehicle-template">
         <div>
             <section class="chooseVehicle">
-                <h3>Choose Your Vehicle</h3>
+                <h4>A Game Where You Can Operate Your Own Cab!</h4>
+                <h4>Complete As Many Rides As You Can, But Don't Run Out Of Gas!</h4>
+                <h4>First, Choose Your Vehicle:</h4>
                 <div class="hybrid">
-                    <h4>Standard Hybrid</h4>
-                    <p>An Eco-Friendly, Economical Choice ($10/per passenger)</p>
+                    <img src="assets/compact.png">
+                    <h4>Compact Car</h4>
+                    <p>An Eco-Friendly, Economical Choice (Make $10/per passenger)</p>
                     <a href="#viewGame" class="hybridBtn">Choose Hybrid</a>
                 </div>
                 <div class="hummer">
+                    <img src="assets/suv.png">
                     <h4>Luxury SUV</h4>
-                    <p>Travel in Style and Luxury ($20/per passenger)</p>
+                    <p>Travel in Style and Luxury (Make $20/per passenger)</p>
                     <a href='#viewGame' class="luxBtn">Choose SUV</a>
                 </div>
             </section>
@@ -42,25 +56,33 @@
     </script>
     <script type="x-ampersand-template" id="passenger-template">
         <div>
-            <h4>Passenger: <span class="name"></span></h4>
-            <p>Occupation: <span class="occupation"></span></p>
-            <p>Status: <span class="passStatus"></span></p>
+            <p><span class="name"></span></p>
+            <p><span class="occupation"></span></p>
+            <p><span class="passStatus"></span></p>
         </div>
     </script>
     <script type="x-ampersand-template" id="passenger-list-template">
         <div class="hide">
-            <h2>Passengers</h2>
-            <ul></ul>
+            <h2>Passenger Log</h2>
+            <ul>
+                <div>
+                    <h4>Name</h4>
+                    <h4>Occupation</h4>
+                    <h4>Status</h4>
+                </div>
+            </ul>
         </div>
     </script>
 </head>
 
 <body>
-    <h1>Crazy Taxi</h1>
+    <h1 id="title">Taxi Insanity!</h1>
     <main>
         <section class="chooseVehicle"></section>
-        <section class="status"></section>
-        <section class="passengers"></section>
+        <section id="left">
+            <section class="status"></section>
+            <section class="passengers"></section>
+        </section>
         <table class='hide' id='table'>
             <tr>
                 <td></td>

@@ -4,23 +4,48 @@
 @include foundation-global-styles;
 @include foundation-grid; 
 
-@import 'layout';
+$header-font: 'Frijole', cursive;
+$primary-font: "Lato", sans-serif;
+
+@import 'game';
+@import 'home';
 @import 'table';
 @import 'chooseVehicle';
-@import 'status';
 
+#title {
+    font-family: $header-font;
+    text-align: center;
+
+}
 
 .hide {
     display: none;
 }
 
 .highlight {
-    background-color: yellow;
+    background-image: url('assets/taxi-icon.png') !important;
+    background-size: 25px 25px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .passenger {
-    background-color: red;
+    background-image: url('assets/customer.png');
+    background-size: 25px 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+
 }
 .destination {
-    background-color: green;
+    background-image: url('assets/destination.png');
+    background-size: 25px 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.gas {
+    background-image: url('assets/fuel.png');
+    background-size: 25px 25px;
+    background-repeat: no-repeat;
+    background-position: center;
 }

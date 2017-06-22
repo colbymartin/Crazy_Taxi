@@ -1,0 +1,45 @@
+body {
+    @include grid-row();
+    #left {
+        @include grid-column(4);
+        text-align: center;
+        .directions {
+            .middle {
+                #leftBtn {
+                    padding-right: 15px;
+                }
+                #rightBtn {
+                    padding-left: 15px;
+                }
+            }
+            button {
+                font-size: 2em;
+                outline: none;
+            }
+        }
+        ul {
+            padding: 0;
+            height: 250px;
+            border: 1px solid black;
+            overflow: scroll;
+            div {
+                @include grid-row();
+                h4 {
+                    @include grid-column(4);
+                    border-bottom: 1px solid black;
+                    text-align: left;
+                    margin: 0px 0px 10px 0px;
+                }
+                p {
+                    @include grid-column(4);
+                    text-align: left;
+                    margin: 0px 0px 5px 0px;
+                }
+            }
+        }
+    }
+    #table {
+        @include grid-column(8);
+    }
+
+}

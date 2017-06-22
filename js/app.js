@@ -20,6 +20,8 @@ window.addEventListener('load', function () {
     crazyTaxi.passX = null;
     crazyTaxi.destX = null;
     crazyTaxi.destY = null;
+    crazyTaxi.stationX = Math.floor(Math.random() * 19);
+    crazyTaxi.stationY = Math.floor(Math.random() * 19);
 
     let list = new PassCollection();
 
@@ -51,23 +53,28 @@ window.addEventListener('load', function () {
 
     crazyTaxi.on('change:fuel', function () {
         if (crazyTaxi.fuel === 0) {
-            console.log('GAME OVER');
             router.navigate('endGame');
-
         }
         if (crazyTaxi.x === crazyTaxi.passX && (crazyTaxi.passY * -1) === crazyTaxi.y) {
             document.querySelector('.passenger').classList.remove('passenger');
-            list.updateLatest('Ride in Progress');
+            list.updateLatest('In Progress');
             crazyTaxi.randomDestination();
+            crazyTaxi.passY = null;
+            crazyTaxi.passX = null;
             document.querySelector('#table').rows[crazyTaxi.destY].cells[crazyTaxi.destX].classList.add('destination');
         }
         if (crazyTaxi.x === crazyTaxi.destX && (crazyTaxi.destY * -1) === crazyTaxi.y) {
             document.querySelector('.destination').classList.remove('destination');
-            list.updateLatest('Ride Completed');
+            list.updateLatest('Completed');
             list.addRandom();
             crazyTaxi.randomPassenger();
             crazyTaxi.calculateFare();
+            crazyTaxi.destX = null;
+            crazyTaxi.destY = null;
             document.querySelector('#table').rows[crazyTaxi.passY].cells[crazyTaxi.passX].classList.add('passenger');
+        }
+        if (crazyTaxi.x === crazyTaxi.stationX && (crazyTaxi.stationY * -1) === crazyTaxi.y) {
+            crazyTaxi.fillUp();
         }
     })
 
